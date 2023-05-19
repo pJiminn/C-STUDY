@@ -1,0 +1,51 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define SIZE 100
+
+typedef struct{
+    char arr[SIZE];
+    int top;
+} StackType;
+
+void init(StackType *s){
+s->top=-1;
+}
+
+int full(StackType *s){
+if (s->top==(SIZE-1)){
+    return 1;
+}
+return 0;
+}
+
+int empty(StackType *s){
+if (s->top == -1){
+    return 1;
+}
+return 0;
+}
+
+
+void push(StackType *s, char value){
+if(full(s)){
+    printf("Stack is full");
+    exit(1);
+}
+
+}
+
+char pop(StackType *s){
+
+}
+
+
+int main (){
+char *s = "(2+3)*4+9";
+printf("%s\n",s);
+infix_to_postfix(s);
+printf("\n")
+
+    return 0; 
+}

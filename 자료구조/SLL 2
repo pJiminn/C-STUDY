@@ -18,4 +18,11 @@ ListNode* insert_first(ListNode* head, element value){
     _new->data =value;
     _new->next = head;
     head =_new;
+    return head;
+}
+
+void print_list(ListNode* head){
+    for (ListNode *_new = head;_new!=NULL;_new=_new->next){
+        printf("%s->",_new->data.name);
+    }
 }
