@@ -1,0 +1,86 @@
+// 각각의 정점에 인접한 정점들을 연결 리스트로 표시
+// 각 연결 리스트의 노드들은 인접 정점들을 저장하게 되며 각 연결 리스트들은 헤더 노드를 가지고 있고 이 헤더 노드들은 하나의 배열로 구성
+// => 정점의 번호만 알면 이 번호를 배열의 인덱스로 하여 각 정점의 연결리스트에 쉽게 접근 가능
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include<stdlib.h>
+
+#define MAX_VERTICES 50
+
+typedef struct GraphNode {
+	int vertex;
+	struct GraphNode* link;
+}GraphNode;
+
+typedef struct GraphType {
+	int n;
+	GraphNode* adj_list[MAX_VERTICES];
+}GraphType;
+
+void init(GraphType* g) {
+    g->n = 0;
+    for (int i = 0; i < MAX_VERTICES; i++) {
+        g->adj_list[i] = 0;
+    }
+}
+
+void insert_vertex(GraphType* g,int v) {
+    if ((g->n) == MAX_VERTICES) {
+        printf("overflow");
+        return;
+    }
+    g->n++;
+}
+
+void insert_edge(GraphType* g, int u, int v) {
+    GraphNode* node;
+    if (u >= g->n || v >= g->n) {
+        printf("vertex index error");
+        return;
+    }
+    node = (GraphNode*)malloc(sizeof(GraphNode));
+    node->vertex = v;
+    node->link = g->adj_list[u];
+    g->adj_list[u] = node;
+}
+
+void print_adj_list(GraphType* g) {
+    for (int i = 0; i < g->n; i++) {
+        GraphNode* p = g->adj_list[i];
+        printf("정점 %d의 인접 리스트", i);
+        while (p != NULL) {
+            printf(" -> %d", p->vertex);
+            p = p -> link;
+        }
+        printf("\n");
+    }
+}
+
+
+
+int main() {
+	GraphType* g;
+	g = (GraphType*)malloc(sizeof(GraphType));
+	init(g);
+	for (int i = 0; i < 4; i++) {
+		insert_vertex(g, i);
+	}
+
+    insert_edge(g, 0, 1);
+    insert_edge(g, 1, 0);
+    insert_edge(g, 0, 2);
+    insert_edge(g, 2, 0);
+    insert_edge(g, 0, 3);
+    insert_edge(g, 3, 0);
+    insert_edge(g, 1, 2);
+    insert_edge(g, 2, 1);
+    insert_edge(g, 2, 3);
+    insert_edge(g, 3, 2);
+    print_adj_list(g);
+
+    free(g);
+
+    return 0;
+
+}
