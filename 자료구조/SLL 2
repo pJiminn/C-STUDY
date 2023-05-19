@@ -1,0 +1,21 @@
+// 단어들을 저장하는 SLL
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct{
+    char name[100];
+}element;
+
+typedef struct ListNode{
+    element data;
+    struct ListNode* next;
+} ListNode;
+
+ListNode* insert_first(ListNode* head, element value){
+    ListNode* _new=(ListNode*)malloc(sizeof(ListNode));
+    _new->data =value;
+    _new->next = head;
+    head =_new;
+}

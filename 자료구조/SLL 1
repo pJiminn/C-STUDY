@@ -1,0 +1,170 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+	int data;
+	struct node* next;
+};
+struct node* head = 0;
+
+void addToSLL(int _v) {
+	struct node* _new = (struct node*)malloc(sizeof(struct node));
+	_new->data = _v;
+	_new->next = 0;
+
+	if (head == 0) {
+		head = _new;
+		return;
+	}
+
+	struct node* temp = head;
+	while (temp->next != 0) {
+		temp = temp->next;
+	}
+	temp->next = _new;
+	return;
+}
+
+void displaySLL(void) {
+	struct node* temp = head;
+	while (temp != 0) {
+		printf("%d\n", temp->data);
+		temp = temp->next;
+	}
+	return;
+}
+
+int countSLL(void) {
+	struct node* temp = head;
+	int cnt = 0;
+	while (temp != 0) {
+		cnt++;
+		temp = temp->next;
+	}
+	return cnt;
+}
+
+struct node* findSLL(int _v) {
+	struct node* temp = head;
+
+	while (temp != 0) {
+		if (temp->data == _v) {
+			return temp;
+		}
+		temp = temp->next;
+	}
+	return temp;
+}
+
+void destroySLL(void) {
+	struct node* spear = head;
+
+	while (head != 0) {
+		head = head->next;
+		free(spear);
+		spear = head;
+	}
+	return;
+
+}
+
+void addToFront(int _v) {
+	struct node* _new = (struct node*)malloc(sizeof(struct node));
+	_new->data = _v;
+	_new->next = 0;
+
+	if (head == 0) {
+		head = _new;
+		return;
+	}
+
+	_new->next = head;
+	head = _new;
+	return;
+}
+
+int delFromFront(void) {
+	if (head == 0) {
+		return -999;
+	}
+
+	struct node* spear = head;
+	head = head->next;
+	int res = spear->data;
+	free(spear);
+	return res;
+}
+
+int delFromLast(void) {
+	if (head == 0) {
+		return -999;
+	}
+
+	if (head->next == 0) {
+		int res = head->data;
+		free(head);
+		head = 0;
+		return res;
+	}
+	
+	struct node* spear = head;
+	while (spear->next->next != 0) {
+		spear = spear->next;
+	}
+	int res = spear->next->data;
+	free(spear->next);
+	spear->next = 0;
+	return res;
+}
+
+void insertInto(int _findv, int _addv) {
+	struct node* target = findSLL(_findv);
+		if (target == 0) {
+			return;
+		}
+	struct node* _new = (struct node*)malloc(sizeof(struct node));
+	_new->data = _addv;
+	_new->next = 0;
+
+	_new->next = target->next;
+	target->next = _new;
+	return;
+}
+
+int main(void) {
+	addToSLL(10);
+	addToSLL(20);
+	addToSLL(30);
+	addToSLL(40);
+
+    addToFront(90);
+	addToFront(80);
+
+	delFromFront();
+	delFromFront();
+	
+	delFromLast();
+
+	insertInto(20, 99);
+
+	// SLL을 앞에서부터 뒤로 지나가면서
+	// 각 노드에 저장된 값들을 출력한다.
+	displaySLL();
+	// countSLL  <--- SLL 안에 있는 노드 개수를 반환
+	// 
+	printf("SLL안의 노드 개수: %d\n", countSLL());
+
+	// findSLL  <--- SLL 안에 있는 특정 노드 위치를 검색
+	printf("20을 가진 노드의 주소 %x\n", findSLL(20));
+	struct node* temp = findSLL(20);
+	printf("%d\n", temp->data);  // ---> must be 20
+
+	// destroySLL <--- SLL 노드를 모두 제거
+	destroySLL();
+
+	if (head != 0) {
+		printf("제대로 destroy 하지 못했음.\n");
+	}
+
+    return 0;}
